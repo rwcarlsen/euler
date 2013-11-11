@@ -6,20 +6,18 @@ import (
 	//"log"
 )
 
-var upper = flag.Int("upper", 1000, "upper bound for factor sums")
+var upper = flag.Int("upper", 4000000, "upper bound for factor sums")
 
 func main() {
 	flag.Parse()
 
-	tot := 2
-	fmt.Printf("fib %v: %v\n", 2, 2)
-	fib, _ := NewFibonacci()
-	fib.Next()
-	fib.Next()
-	for fib.Next()+fib.Next() <= *upper {
-		tot += fib.Next()
-		fmt.Printf("fib %v: %v\n", fib.Count(), fib.Val())
+	x1, x2 := 2, 8
+	tot := x1
+	for x2 <= *upper {
+		tot += x2
+		x1, x2 = x2, x2*4+x1
 	}
+	fmt.Printf("sum of even fibonacci up to %v: %v\n", *upper, tot)
 }
 
 type Fibonacci struct {
