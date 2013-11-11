@@ -13,8 +13,8 @@ var upper = flag.Int("upper", 1000, "upper bound for factor sums")
 func main() {
 	flag.Parse()
 
-	*upper--
-	if float64(*upper) > math.Sqrt(math.MaxInt64) {
+	upp := *upper - 1
+	if float64(upp) > math.Sqrt(math.MaxInt64) {
 		log.Fatal("overflow: upper bound is too large")
 	}
 
@@ -31,15 +31,15 @@ func main() {
 	prod := 1
 	for _, fac := range factors {
 		prod *= fac
-		count := *upper / fac
-		max := *upper - (*upper % fac)
+		count := upp / fac
+		max := upp - (upp % fac)
 		tot += max * (count + 1) / 2
 	}
 
 	// subtract common multiples of factors
 	// prior to this, tot would, for example, contain 3*5 and 5*3
-	count := *upper / prod
-	max := *upper - (*upper % prod)
+	count := upp / prod
+	max := upp - (upp % prod)
 	tot -= max * (count + 1) / 2
 
 	fmt.Printf("Sum of all multiples of %#v up to %v: %v\n", factors, *upper, tot)
